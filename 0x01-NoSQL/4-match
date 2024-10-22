@@ -1,0 +1,2 @@
+//This script Queries the 'school' collection in the database to find all documents
+db.school.find({ name: "Holberton school" })
