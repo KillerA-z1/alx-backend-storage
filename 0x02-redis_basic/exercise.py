@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cache class with Redis client
+Cache class with Redis client and method call counter
 """
 
 import redis
@@ -10,7 +10,15 @@ from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
-    """Decorator to count how many times a method is called"""
+    """
+    Decorator to count how many times a method is called
+
+    Args:
+        method: The method to be decorated
+
+    Returns:
+        Callable: The wrapped method
+    """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """Wrapper function to increment the count and
@@ -27,6 +35,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store the input data in Redis using a random key and return the key.
